@@ -3,5 +3,9 @@ contact:
       firstName: jméno
       lastName: příjmení
       email: email
+      phone: telefon
+      note: poznámka
+      showNote: zobrazit poznámku
+      cancel: zavřít
   list:
     title: Seznam kontaktů
