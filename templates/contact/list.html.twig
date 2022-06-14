@@ -1,5 +1,6 @@
 <h1>{% trans %}contact.list.title{% endtrans %}</h1>
 <div>
+    <p>{{ itemsCount.currentLow }} - {{ itemsCount.currentHigh }} / {{ itemsCount.total }}</p>
     <table>
         <thead>
             <tr>
@@ -9,7 +10,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for contact in contacts %}
+        {% for contact in pagination %}
             <tr>
                 <td>{{ contact.getFirstName() }}</td>
                 <td>{{ contact.getLastName() }}</td>
@@ -18,4 +19,9 @@
         {% endfor %}
         </tbody>
     </table>
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 </div>
+
+
