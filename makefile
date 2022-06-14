@@ -1,7 +1,8 @@
 system-init:
 	cp -n .env.local.sample .env.local
-	make run
-	make composer install
+	docker-compose --env-file .env up -d
+	docker-compose exec php-fpm composer install
+	docker-compose exec php-fpm ./bin/console doctrine:migrations:migrate
 
 run: .env
 	docker-compose --env-file .env up -d
@@ -28,13 +29,16 @@ phpstan:
 	docker-compose exec php-fpm ./vendor/bin/phpstan
 
 console:
-	docker-compose -f docker-compose.yml exec php-fpm ./bin/console $(filter-out $@,$(MAKECMDGOALS))
+	docker-compose exec php-fpm ./bin/console $(filter-out $@,$(MAKECMDGOALS))
 
 fix-owner:
-	sudo find src/ bin/ config/ var/ vendor/ migrations/ -user root -exec chown ${USER}:${USER} {} \;
+	sudo find src/ templates/ translations/ bin/ config/ var/ vendor/ migrations/ -user root -exec chown ${USER}:${USER} {} \;
 
 migrate:
 	docker-compose exec php-fpm ./bin/console doctrine:migrations:migrate
 
 migrations-diff:
 	docker-compose exec php-fpm ./bin/console doctrine:migrations:diff
+
+fixtures:
+	docker-compose exec php-fpm ./bin/console doctrine:fixtures:load

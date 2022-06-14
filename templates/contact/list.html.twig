@@ -1,0 +1,21 @@
+<h1>{% trans %}contact.list.title{% endtrans %}</h1>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>{{ "contact.common.firstName"|trans|capitalize }}</th>
+                <th>{{ "contact.common.lastName"|trans|capitalize }}</th>
+                <th>{{ "contact.common.email"|trans|capitalize }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for contact in contacts %}
+            <tr>
+                <td>{{ contact.getFirstName() }}</td>
+                <td>{{ contact.getLastName() }}</td>
+                <td>{{ contact.getEmail() }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
