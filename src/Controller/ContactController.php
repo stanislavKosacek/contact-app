@@ -6,12 +6,14 @@ namespace App\Controller;
 
 use App\Repository\ContactRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class ContactController extends AbstractController
 {
-    public function list(ContactRepository $contactRepository): JsonResponse
+    public function list(ContactRepository $contactRepository): Response
     {
-        return new JsonResponse(['contact-list']);
+        return $this->render('contact/list.html.twig', [
+            'contacts' => $contactRepository->findAll(),
+        ]);
     }
 }

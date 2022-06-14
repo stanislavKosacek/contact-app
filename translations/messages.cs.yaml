@@ -1,0 +1,7 @@
+contact:
+  common:
+      firstName: jméno
+      lastName: příjmení
+      email: email
+  list:
+    title: Seznam kontaktů
