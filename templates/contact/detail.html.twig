@@ -27,5 +27,6 @@
         </tr>
     </table>
     <a href="{{ path('contact_edit', {'slug': contact.getSlug()}) }}">{{ "contact.common.edit"|trans|capitalize }}</a>
+    <a class="confirm-action" data-message="{{ "contact.common.confirmDelete"|trans}}" href="{{ path('contact_delete', {'slug': contact.getSlug()}) }}">{{ "contact.common.delete"|trans|capitalize }}</a>
 </div>
 {% endblock %}

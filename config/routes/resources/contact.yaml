@@ -17,3 +17,8 @@ contact_edit:
   path: /{slug}/edit
   controller: App\Controller\ContactController::edit
   methods: GET|POST
+
+contact_delete:
+  path: /{slug}/delete
+  controller: App\Controller\ContactController::delete
+  methods: GET

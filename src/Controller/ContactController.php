@@ -91,12 +91,12 @@ class ContactController extends AbstractController
         ]);
     }
 
-    public function edit(Request $request, ContactRepository $contactRepository, TranslatorInterface $translator): Response
+    public function edit(Request $request): Response
     {
-        $contact = $contactRepository->findOneBy(['slug' => $request->get('slug')]);
+        $contact = $this->contactRepository->findOneBy(['slug' => $request->get('slug')]);
 
         if (!$contact) {
-            throw $this->createNotFoundException($translator->trans('contact.notFound'));
+            throw $this->createNotFoundException($this->translator->trans('contact.notFound'));
         }
 
         $form = $this->createForm(ContactFormType::class, $contact);
@@ -110,6 +110,20 @@ class ContactController extends AbstractController
             'form' => $form->createView(),
             'edit' => true,
         ]);
+    }
+
+    public function delete(Request $request): Response
+    {
+        $contact = $this->contactRepository->findOneBy(['slug' => $request->get('slug')]);
+
+        if (!$contact) {
+            throw $this->createNotFoundException($this->translator->trans('contact.notFound'));
+        }
+
+        $this->em->remove($contact);
+        $this->em->flush();
+
+        return $this->redirectToRoute('contact_list');
     }
 
     protected function processContactForm(FormInterface $form): RedirectResponse
