@@ -3,35 +3,11 @@
 {% block body %}
 <h1>{% block title %}{% trans %}contact.list.title{% endtrans %}{% endblock %}</h1>
 <div>
-    <p>{{ itemsCount.currentLow }} - {{ itemsCount.currentHigh }} / {{ itemsCount.total }}</p>
-    <table>
-        <thead>
-            <tr>
-                <th>{{ "contact.common.firstName"|trans|capitalize }}</th>
-                <th>{{ "contact.common.lastName"|trans|capitalize }}</th>
-                <th>{{ "contact.common.email"|trans|capitalize }}</th>
-                <th>{{ "contact.common.phone"|trans|capitalize }}</th>
-                <th>{{ "contact.common.note"|trans|capitalize }}</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for contact in pagination %}
-            <tr>
-                <td>{{ contact.getFirstName() }}</td>
-                <td>{{ contact.getLastName() }}</td>
-                <td>{{ contact.getEmail() }}</td>
-                <td>{{ contact.getPhone() }}</td>
-                <td>
-                    {% if contact.getNote() %}
-                        <button class="show-contact-note" data-note="{{ contact.getNote() }}" data-cancel-text="{{ "contact.common.cancel"|trans|capitalize }}">{{ "contact.common.showNote"|trans|capitalize }}</button>
-                    {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <div class="navigation">
-        {{ knp_pagination_render(pagination) }}
+    <div id="table">
+        {% include 'contact/partial/listTable.html.twig' %}
+    </div>
+    <div id="pagination">
+        {% include 'common/pagination.html.twig' %}
     </div>
 </div>
 {% endblock %}
