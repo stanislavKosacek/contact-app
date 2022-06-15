@@ -7,11 +7,15 @@ namespace App\Entity;
 use App\Entity\Traits\TimeStampableTrait;
 use App\Repository\ContactRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\UniqueConstraint(name: 'ux_contact_email', columns: ['email'])]
 #[ORM\UniqueConstraint(name: 'ux_contact_slug', columns: ['slug'])]
+#[UniqueEntity(fields: ['email'], message: 'contact.emailNotUnique')]
+#[UniqueEntity(fields: ['slug'], message: 'contact.slugNotUnique')]
 class Contact
 {
     use TimeStampableTrait;
@@ -22,15 +26,19 @@ class Contact
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'contact.missingFirstName')]
     private string $firstName;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'contact.missingLastName')]
     private string $lastName;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $phone;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'contact.missingEmail')]
+    #[Assert\Email(message: 'contact.invalidEmail')]
     private string $email;
 
     #[ORM\Column(type: 'text', nullable: true)]

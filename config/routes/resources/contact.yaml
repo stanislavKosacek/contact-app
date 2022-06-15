@@ -3,6 +3,11 @@ contact_list:
   controller: App\Controller\ContactController::list
   methods: GET
 
+contact_create:
+  path: /contact/create
+  controller: App\Controller\ContactController::create
+  methods: GET|POST
+
 contact_detail:
   path: /{slug}
   controller: App\Controller\ContactController::detail
