@@ -1,0 +1,27 @@
+<p>{{ itemsCount.currentLow }} - {{ itemsCount.currentHigh }} / {{ itemsCount.total }}</p>
+<table>
+    <thead>
+    <tr>
+        <th>{{ "contact.common.firstName"|trans|capitalize }}</th>
+        <th>{{ "contact.common.lastName"|trans|capitalize }}</th>
+        <th>{{ "contact.common.email"|trans|capitalize }}</th>
+        <th>{{ "contact.common.phone"|trans|capitalize }}</th>
+        <th>{{ "contact.common.note"|trans|capitalize }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for contact in pagination %}
+        <tr>
+            <td>{{ contact.getFirstName() }}</td>
+            <td>{{ contact.getLastName() }}</td>
+            <td><a href="mailto:{{ contact.getEmail() }}">{{ contact.getEmail() }}</a></td>
+            <td>{% if contact.getPhone() %}<a href="tel:{{ contact.getPhone() }}">{{ contact.getPhone() }}</a> {% endif %}</td>
+            <td>
+                {% if contact.getNote() %}
+                    <button class="show-contact-note" data-note="{{ contact.getNote() }}" data-cancel-text="{{ "contact.common.cancel"|trans|capitalize }}">{{ "contact.common.showNote"|trans|capitalize }}</button>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

@@ -23,6 +23,10 @@ class ContactFixtures extends BaseFixture
             if ($this->faker->boolean(50)) {
                 $contact->setNote($this->faker->realText($this->faker->numberBetween(200, 1000)));
             }
+
+            if ($this->faker->boolean(50)) {
+                $contact->setPhone($this->faker->phoneNumber);
+            }
         });
 
         $manager->flush();
