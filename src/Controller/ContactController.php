@@ -12,7 +12,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Exception\InvalidArgumentException;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -20,14 +22,19 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ContactController extends AbstractController
 {
-    public function __construct(protected ValidatorInterface $validator)
-    {
+    public function __construct(
+        protected ContactRepository $contactRepository,
+        protected ValidatorInterface $validator,
+        protected EntityManagerInterface $em,
+        protected ContactUtility $contactUtility,
+        protected TranslatorInterface $translator,
+    ) {
     }
 
-    public function list(ContactRepository $contactRepository, PaginatorInterface $paginator, Request $request): Response
+    public function list(PaginatorInterface $paginator, Request $request): Response
     {
         $pagination = $paginator->paginate(
-            $contactRepository->createQueryBuilder('c'),
+            $this->contactRepository->createQueryBuilder('c'),
             $request->query->getInt('page', 1),
             (int) $this->getParameter('contactsPerPage')
         );
@@ -56,12 +63,12 @@ class ContactController extends AbstractController
         return $this->render('contact/list.html.twig', $props);
     }
 
-    public function detail(ContactRepository $contactRepository, Request $request, TranslatorInterface $translator): Response
+    public function detail(Request $request): Response
     {
-        $contact = $contactRepository->findOneBy(['slug' => $request->get('slug')]);
+        $contact = $this->contactRepository->findOneBy(['slug' => $request->get('slug')]);
 
         if (!$contact) {
-            throw $this->createNotFoundException($translator->trans('contact.notFound'));
+            throw $this->createNotFoundException($this->translator->trans('contact.notFound'));
         }
 
         return $this->render('contact/detail.html.twig', [
@@ -69,24 +76,51 @@ class ContactController extends AbstractController
         ]);
     }
 
-    public function create(Request $request, EntityManagerInterface $em, ContactUtility $contactUtility): Response
+    public function create(Request $request): Response
     {
         $form = $this->createForm(ContactFormType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $contact = $form->getData();
-            $contact->setSlug($contactUtility->createSlug($contact));
-            $this->validateContact($contact);
-            $em->persist($contact);
-            $em->flush();
-
-            return $this->redirectToRoute('contact_detail', ['slug' => $contact->getSlug()]);
+            return $this->processContactForm($form);
         }
 
         return $this->render('contact/createUpdate.html.twig', [
             'form' => $form->createView(),
+            'edit' => false,
         ]);
+    }
+
+    public function edit(Request $request, ContactRepository $contactRepository, TranslatorInterface $translator): Response
+    {
+        $contact = $contactRepository->findOneBy(['slug' => $request->get('slug')]);
+
+        if (!$contact) {
+            throw $this->createNotFoundException($translator->trans('contact.notFound'));
+        }
+
+        $form = $this->createForm(ContactFormType::class, $contact);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->processContactForm($form);
+        }
+
+        return $this->render('contact/createUpdate.html.twig', [
+            'form' => $form->createView(),
+            'edit' => true,
+        ]);
+    }
+
+    protected function processContactForm(FormInterface $form): RedirectResponse
+    {
+        $contact = $form->getData();
+        $contact->setSlug($this->contactUtility->createSlug($contact));
+        $this->validateContact($contact);
+        $this->em->persist($contact);
+        $this->em->flush();
+
+        return $this->redirectToRoute('contact_detail', ['slug' => $contact->getSlug()]);
     }
 
     protected function validateContact(Contact $contact): void

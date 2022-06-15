@@ -1,14 +1,19 @@
 contact:
   notFound: 'Kontakt nenalezen'
   common:
-      firstName: Jméno
-      lastName: Příjmení
-      email: E-mail
-      phone: Telefon
-      note: Poznámka
-      showNote: Zobrazit poznámku
-      cancel: Zavřít
-      detail: Detail
-      create: Vytvořit nový kontakt
+    firstName: Jméno
+    lastName: Příjmení
+    email: E-mail
+    phone: Telefon
+    note: Poznámka
+    showNote: Zobrazit poznámku
+    cancel: Zavřít
+    detail: Detail
+    create: Vytvořit nový kontakt
+    edit: Upravit kontakt
   list:
     title: Seznam kontaktů
+  create:
+    title: Vytvořit kontakt
+  edit:
+    title: Upravit kontakt

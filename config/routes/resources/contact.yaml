@@ -12,3 +12,8 @@ contact_detail:
   path: /{slug}
   controller: App\Controller\ContactController::detail
   methods: GET
+
+contact_edit:
+  path: /{slug}/edit
+  controller: App\Controller\ContactController::edit
+  methods: GET|POST
