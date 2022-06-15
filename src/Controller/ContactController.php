@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ContactController extends AbstractController
 {
@@ -43,5 +44,18 @@ class ContactController extends AbstractController
         }
 
         return $this->render('contact/list.html.twig', $props);
+    }
+
+    public function detail(ContactRepository $contactRepository, Request $request, TranslatorInterface $translator)
+    {
+        $contact = $contactRepository->findOneBy(['slug' => $request->get('slug')]);
+
+        if (!$contact) {
+            throw  $this->createNotFoundException($translator->trans('contact.notFound'));
+        }
+
+        return $this->render('contact/detail.html.twig', [
+            'contact' => $contact,
+        ]);
     }
 }

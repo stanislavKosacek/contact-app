@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div><a href="{{ path('contact_list') }}"><< {{ "contact.list.title"|trans }}</a> </div>
+<h1>{% block title %}{{ contact.getFullName() }}{% endblock %}</h1>
+<div>
+    <table>
+        <tr>
+            <th>{{ "contact.common.firstName"|trans|capitalize }}</th>
+            <td>{{ contact.getFirstName() }}</td>
+        </tr>
+        <tr>
+            <th>{{ "contact.common.lastName"|trans|capitalize }}</th>
+            <td>{{ contact.getLastName() }}</td>
+        </tr>
+        <tr>
+            <th>{{ "contact.common.email"|trans|capitalize }}</th>
+            <td><a href="mailto:{{ contact.getEmail() }}">{{ contact.getEmail() }}</a></td>
+        </tr>
+        <tr>
+            <th>{{ "contact.common.phone"|trans|capitalize }}</th>
+            <td>{% if contact.getPhone() %}<a href="tel:{{ contact.getPhone() }}">{{ contact.getPhone() }}</a> {% endif %}</td>
+        </tr>
+        <tr>
+            <th>{{ "contact.common.note"|trans|capitalize }}</th>
+            <td>{{ contact.getNote() }}</td>
+        </tr>
+    </table>
+</div>
+{% endblock %}

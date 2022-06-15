@@ -1,4 +1,9 @@
-contact:
+contact_list:
   path: /
   controller: App\Controller\ContactController::list
+  methods: GET
+
+contact_detail:
+  path: /{slug}
+  controller: App\Controller\ContactController::detail
   methods: GET
