@@ -8,13 +8,8 @@ contact_create:
   controller: App\Controller\ContactController::create
   methods: GET|POST
 
-contact_detail:
-  path: /{slug}
-  controller: App\Controller\ContactController::detail
-  methods: GET
-
 contact_edit:
-  path: /{slug}/edit
+  path: /{slug}
   controller: App\Controller\ContactController::edit
   methods: GET|POST
 

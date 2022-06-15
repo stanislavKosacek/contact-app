@@ -63,19 +63,6 @@ class ContactController extends AbstractController
         return $this->render('contact/list.html.twig', $props);
     }
 
-    public function detail(Request $request): Response
-    {
-        $contact = $this->contactRepository->findOneBy(['slug' => $request->get('slug')]);
-
-        if (!$contact) {
-            throw $this->createNotFoundException($this->translator->trans('contact.notFound'));
-        }
-
-        return $this->render('contact/detail.html.twig', [
-            'contact' => $contact,
-        ]);
-    }
-
     public function create(Request $request): Response
     {
         $form = $this->createForm(ContactFormType::class);
@@ -109,6 +96,7 @@ class ContactController extends AbstractController
         return $this->render('contact/createUpdate.html.twig', [
             'form' => $form->createView(),
             'edit' => true,
+            'contact' => $contact,
         ]);
     }
 
@@ -134,7 +122,7 @@ class ContactController extends AbstractController
         $this->em->persist($contact);
         $this->em->flush();
 
-        return $this->redirectToRoute('contact_detail', ['slug' => $contact->getSlug()]);
+        return $this->redirectToRoute('contact_edit', ['slug' => $contact->getSlug()]);
     }
 
     protected function validateContact(Contact $contact): void

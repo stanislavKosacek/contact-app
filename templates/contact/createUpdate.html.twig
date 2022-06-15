@@ -4,9 +4,14 @@
 <div><a href="{{ path('contact_list') }}"><< {{ "contact.list.title"|trans }}</a> </div>
 <h1>{% block title %}{% if edit %}{{ "contact.edit.title"|trans|capitalize }}{% else %}{{ "contact.create.title"|trans|capitalize }}{% endif %}{% endblock %}</h1>
 <div>
-    {{ form_start(form) }}
+        {{ form_start(form) }}
         {{ form_widget(form) }}
         <button type="submit" class="btn btn-primary">{% if edit %}{{ "contact.common.edit"|trans|capitalize }}{% else %}{{ "contact.common.create"|trans|capitalize }}{% endif %}</button>
-    {{ form_end(form) }}
+        {{ form_end(form) }}
+</div>
+<div>
+        {% if edit %}
+                <a class="confirm-action" data-message="{{ "contact.common.confirmDelete"|trans}}" href="{{ path('contact_delete', {'slug': contact.getSlug()}) }}">{{ "contact.common.delete"|trans|capitalize }}</a>
+        {% endif %}
 </div>
 {% endblock %}
