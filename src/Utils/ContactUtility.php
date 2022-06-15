@@ -45,6 +45,8 @@ class ContactUtility
             $slug = $this->createSlug($contact, ++$attempt);
         }
 
-        return $slug;
+        $slug = str_replace("/", "_", $slug);
+
+        return urlencode($slug);
     }
 }
