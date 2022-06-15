@@ -26,5 +26,6 @@
             <td>{{ contact.getNote() }}</td>
         </tr>
     </table>
+    <a href="{{ path('contact_edit', {'slug': contact.getSlug()}) }}">{{ "contact.common.edit"|trans|capitalize }}</a>
 </div>
 {% endblock %}
