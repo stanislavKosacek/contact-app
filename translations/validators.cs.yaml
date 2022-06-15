@@ -1,0 +1,7 @@
+contact:
+  emailNotUnique: Kontakt s tímto emailem již existuje
+  slugNotUnique: Kontakt s touto url již exituje
+  missingFirstName: Zadejte jméno
+  missingLastName: Zadejte příjmení
+  missingEmail: Zadejte email
+  invalidEmail: Zadejte validní emailovou adresu

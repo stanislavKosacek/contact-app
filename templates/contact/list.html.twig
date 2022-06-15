@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h1>{% block title %}{% trans %}contact.list.title{% endtrans %}{% endblock %}</h1>
+<h1>{% block title %}{{ "contact.list.title"|trans }}{% endblock %}</h1>
 <div>
+    <a href="{{ path('contact_create') }}">{{ "contact.common.create"|trans|capitalize }}</a>
     <div id="table">
         {% include 'contact/partial/listTable.html.twig' %}
     </div>

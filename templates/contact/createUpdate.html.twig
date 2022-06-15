@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div><a href="{{ path('contact_list') }}"><< {{ "contact.list.title"|trans }}</a> </div>
+<h1>{% block title %}{{ "contact.create.title"|trans|capitalize }}{% endblock %}</h1>
+<div>
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary">{{ "contact.common.create"|trans|capitalize }}</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}
