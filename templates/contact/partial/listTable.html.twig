@@ -7,7 +7,7 @@
         <th>{{ "contact.common.email"|trans|capitalize }}</th>
         <th>{{ "contact.common.phone"|trans|capitalize }}</th>
         <th>{{ "contact.common.note"|trans|capitalize }}</th>
-        <th></th>
+        <th>{{ "contact.common.actions"|trans|capitalize }}</th>
     </tr>
     </thead>
     <tbody>
@@ -22,7 +22,10 @@
                     <button class="show-contact-note" data-note="{{ contact.getNote() }}" data-cancel-text="{{ "contact.common.cancel"|trans|capitalize }}">{{ "contact.common.showNote"|trans|capitalize }}</button>
                 {% endif %}
             </td>
-            <td><a href="{{ path('contact_detail', {'slug': contact.getSlug()}) }}">{{ "contact.common.detail"|trans|capitalize }}</a></td>
+            <td>
+                <a href="{{ path('contact_detail', {'slug': contact.getSlug()}) }}">{{ "contact.common.detail"|trans|capitalize }}</a> |
+                <a class="confirm-action" data-message="{{ "contact.common.confirmDelete"|trans}}" href="{{ path('contact_delete', {'slug': contact.getSlug()}) }}">{{ "contact.common.delete"|trans|capitalize }}</a>
+            </td>
         </tr>
     {% endfor %}
     </tbody>
