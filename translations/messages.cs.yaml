@@ -1,4 +1,5 @@
 contact:
+  notFound: 'Kontakt nenalezen'
   common:
       firstName: jméno
       lastName: příjmení
@@ -7,5 +8,6 @@ contact:
       note: poznámka
       showNote: zobrazit poznámku
       cancel: zavřít
+      detail: detail
   list:
     title: Seznam kontaktů
